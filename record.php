@@ -20,7 +20,7 @@ require_once("includes/classes/VideoDetailsFormProvider.php");
 </style>
 <div class="column">
 <button class="btn btn-success" id="btn-start-recording">Start Recording</button>
-<button class="btn btn-danger" id="btn-stop-recording" disabled="disabled">Stop Recording</button>
+<button class="btn btn-danger" id="btn-stop-recording" disabled="disabled">Finish Recording</button>
 <p><strong>NOTE:</strong> The latest recorded version will be saved to server</p>
 <hr>
 <video id="my-preview" controls autoplay></video>
