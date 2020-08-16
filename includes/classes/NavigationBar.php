@@ -15,6 +15,7 @@ class NavigationBar {
         $navContent.=$this->createNavItem("Bookmarks", "assets/images/icons/bookmark.png", "bookmarks.php");
 
         if(User::isLoggedIn()) {
+            $navContent.=$this->createNavItem("Record Class", "assets/images/icons/record.png", "record.php");
             $navContent.=$this->createNavItem("Edit Account", "assets/images/icons/editform.png", "editAccount.php");
             $navContent.=$this->createNavItem("Create Playlist", "assets/images/playlist.png", "createPlaylist.php");
             $navContent.=$this->createNavItem("Watch History", "assets/images/icons/history.png", "history.php");
