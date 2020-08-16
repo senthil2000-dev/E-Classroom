@@ -2,31 +2,53 @@
 require_once("mailNow.php");
 $success = "";
 $error = "";
-if(!empty($_POST["submitEmail"])) {
-    
-    $email=$_POST["submittedEmail"];
-    $query=$con->prepare("SELECT * FROM authenticatedusers WHERE email=:email");
-    $query->bindParam(":email", $email);
+if(!isset($_SESSION["userLoggedIn"]))
+	header("Location: signIn.php");
+if(isset($_SESSION["userTrying"]))
+	$redirectUrl=$_SESSION["userTrying"]==1?"record.php":"upload.php";
+else
+	$redirectUrl="upload.php";
+if(!empty($_POST["submitEmail"])) {  
+	$email=$_POST["submittedEmail"];
+	$query=$con->prepare("SELECT * FROM users WHERE email=:email AND username=:username");
+	$query->bindParam(":email", $email);
+	$query->bindParam(":username", $username);
+	$username=$_SESSION["userLoggedIn"];
     $query->execute();
-	$num  = $query->rowCount();
-	if($num>0) {
-        $otp = rand(100000,999999);
-        $expiryStatus=0;
-        $mailStatus = mailOtp($email,$otp);
-        if($mailStatus==1) {
-			$query=$con->prepare("INSERT INTO validateotp(otp,expiry) VALUES (:otp, :expiry)");
-            $query->bindParam(":otp", $otp);
-            $query->bindParam(":expiry", $expiryStatus);
-			if($query->execute()) {
-				$success=1;
+	$exists  = $query->rowCount();
+	if($exists>0) {
+		$query=$con->prepare("SELECT * FROM authenticatedusers WHERE email=:email");
+		$query->bindParam(":email", $email);
+		$query->execute();
+		$num  = $query->rowCount();
+		if($num>0) {
+			$expiryStatus=1;
+			$query=$con->prepare("UPDATE validateotp SET expiry=:expiry WHERE email=:email");
+			$query->bindParam(":email", $email);
+			$query->bindParam(":expiry", $expiryStatus);
+			$query->execute();
+			$otp = rand(100000,999999);
+			$expiryStatus=0;
+			$mailStatus = mailOtp($email,$otp);
+			if($mailStatus==1) {
+				$query=$con->prepare("INSERT INTO validateotp(otp,expiry,email) VALUES (:otp, :expiry, :email)");
+				$query->bindParam(":otp", $otp);
+				$query->bindParam(":expiry", $expiryStatus);
+				$query->bindParam(":email", $email);
+				if($query->execute()) {
+					$success=1;
+				}
+			}
+			else {
+				$error=$mailStatus;
 			}
 		}
 		else {
-			$error=$mailStatus;
+			$error = "This email is not authorised to upload videos!";
 		}
-    }
-    else {
-		$error = "This email is not authorised to upload videos!";
+	}
+	else {
+		$error="This is not your login email";
 	}
 }
 if(!empty($_POST["submitOtp"])) {
@@ -46,8 +68,7 @@ if(!empty($_POST["submitOtp"])) {
         $success = 2;
         $_SESSION["success"]=1;
 	} else {
-		$success =1;
-		$error = "Invalid OTP! Try typing again or it may be expired";
+		$error = "Invalid OTP!";
 	}	
 }
 ?>
@@ -70,20 +91,21 @@ if(!empty($_POST["submitOtp"])) {
 		<form name="tutor" method="POST" action="">
 		<div class="tutorAuthenticate">
 			<?php 
-				if($success == 1) { 
+				if($success == 1) {	
 			?>
 			<div class="headerInfo">Enter OTP</div>
-			<p style="color:#31ab00;">Check your email for the OTP</p>
-				
+			<p style="margin-bottom:0;color:#31ab00;">Check your email for the OTP</p>
+			<span style="color:red;">OTP will be valid only for 24 hours</span>	
 			<div class="bodyInput">
 				<input type="text" name="submittedOtp" placeholder="One Time Password" class="authenticateInput" required>
 			</div>
-			<div class="headerInfo"><input type="submit" name="submitOtp" value="Submit" class="submitBtn"></div>
+			<div class="headerInfo"><input type="submit" name="submitOtp" value="Submit" class="submitBtn"><button class="submitBtn" onclick="resend()">Resend OTP</button></div>
 			<?php 
+				echo "<script>alert('OTP sent')</script>";
 				}
 				else if ($success == 2) {
 					$_SESSION["success"]=1;
-					header("Location: upload.php");
+					header("Location: $redirectUrl");
 				}
 				else {
 			?>
@@ -96,4 +118,11 @@ if(!empty($_POST["submitOtp"])) {
 		</div>
 	</div>
 </form>
+<script>
+
+function resend() {
+	document.getElementsByClassName("authenticateInput")[0].value="";
+	location.reload();
+}
+</script>
 </body></html>

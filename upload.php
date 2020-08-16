@@ -1,12 +1,13 @@
 <?php
 require_once("includes/header.php");
 require_once("includes/classes/VideoDetailsFormProvider.php");
-if(!isset($_SESSION["success"])) {
-  header("Location:authenticate.php");
-}
 if($userLoggedInObj->getUsername()==""){
   echo "You must be logged in to upload a video";
   exit();
+}
+if(!isset($_SESSION["success"])) {
+  $_SESSION["userTrying"]="0";
+  header("Location:authenticate.php");
 }
  ?>
 
