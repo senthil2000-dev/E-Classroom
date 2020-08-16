@@ -25,6 +25,22 @@ class VideoDetailsFormProvider{
                 </form>";
     }
 
+    public function createRecordForm(){
+        $titleInput=$this->createTitleInput(null);
+        $descriptionInput=$this->createDescriptionInput(null);
+        $degreeInput=$this->createDegreeInput(null);
+        $departmentsInput=$this->createDepartmentsInput(null);
+        $uploadButton=$this->createUploadButton();
+        
+        return "<form name='recordForm'>
+                    $titleInput
+                    $descriptionInput
+                    $degreeInput
+                    $departmentsInput
+                    $uploadButton
+                </form>";
+    }
+
     public function createEditDetailsForm($video){
         $titleInput=$this->createTitleInput($video->getTitle());
         $descriptionInput=$this->createDescriptionInput($video->getDescription());
@@ -95,7 +111,7 @@ class VideoDetailsFormProvider{
         return $html;
     }
     private function createUploadButton(){
-        return "<button type='submit' class='btn btn-primary' name='uploadButton'>Upload</button>";
+        return "<button type='submit' class='btn btn-primary' id='saveRecording' name='uploadButton'>Upload</button>";
     }
 
     private function createSaveButton(){
