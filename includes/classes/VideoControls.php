@@ -49,6 +49,9 @@ class  VideoControls {
         $share="<a class='iconMargin' id='$btn'>
                     <i class='fas fa-2x fa-share-square'></i>
                 </a>";
+        if(basename($_SERVER["PHP_SELF"])=="stream2.php") {
+            $share="";
+        }
         return "<div class='publisherInfo'>
                     <div class='topRow'>
                     $channelButton
