@@ -132,7 +132,7 @@ class VideoMatrix {
                         <img class='deleteSearch' onmouseover='hover(this)' onmouseout='unhover(this)' onclick='deleteAll2()' src='assets\images\icons\deletefull.png' title='delete full history' alt='Delete Full History Button'></img>
                         <label>Pause watch history:</label>
                         <label class='switch'>
-                        <input type='checkbox' id='checking' onchange='status()' >
+                        <input type='checkbox' id='checking' onchange='status()' $checked>
                         <span class='slider round'></span>
                         </label>
                          <label for='range' id='split'>Choose a range of time:</label>
