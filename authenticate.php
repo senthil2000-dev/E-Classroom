@@ -110,7 +110,7 @@ if(!empty($_POST["submitOtp"])) {
 				else {
 			?>
 			<div class="headerInfo">Enter Your Login Email</div>
-			<div class="bodyInput"><input type="text" name="submittedEmail" placeholder="Email" class="authenticateInput" required></div>
+			<div class="bodyInput"><input type="text" name="submittedEmail" placeholder="Email" class="authenticateInput" required autocomplete="off"></div>
 			<div class="headerInfo"><input type="submit" name="submitEmail" value="Submit" class="submitBtn"></div>
 			<?php 
 				}
