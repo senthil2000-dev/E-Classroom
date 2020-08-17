@@ -39,12 +39,11 @@ class VideoRendering
                 echo "Upload failed";
                 return false;
             }
-
             if(!$this->unlinkFile($interimPath)){
                 echo "Upload failed";
                 return false;
             }
-
+            $this->addOverlay($finalDestination);
             if(!$this->createThumbnails($finalDestination)){
                 echo "Could not create thumbnails\n";
                 return false;
@@ -106,7 +105,6 @@ class VideoRendering
         $outputLog=array();
         exec($cmd, $outputLog, $returnCode);
         if($returnCode!=0){
-            //Command failed
             foreach($outputLog as $line){
                 echo $line."<br>";
             }
@@ -121,6 +119,21 @@ class VideoRendering
             return false;
         }
         return true;
+    }
+    public function addOverlay($filePath) {
+        $image = "assets/images/icons/watermark.png";
+        
+        $command = "$this->ffmpegPath -i " . $image . " -s 100x50 output.jpeg";
+        system($command);
+        $command = "$this->ffmpegPath -i " . $filePath . " -i output.jpeg";
+        $command .= " -filter_complex \"[0:v][1:v]";
+        $command .= " overlay=5:10\"";
+        $command .= " -c:a copy output.mp4";
+        system($command);
+        unlink("output.jpeg");
+        unlink($filePath);
+        rename("output.mp4", $filePath);
+
     }
     public function createThumbnails($filePath){
         $thumbnailSize="210*118";
