@@ -16,7 +16,7 @@ class VideoSegment{
         $id=$this->video->getId();
         $selected=$this->id2==$this->video->getId() ? "playing" : "";
 
-        if (basename($_SERVER["PHP_SELF"])=="createPlaylist.php") {
+        if (basename($_SERVER["PHP_SELF"])=="createPlaylist.php"||basename($_SERVER["PHP_SELF"])=="mergeVideos.php") {
             return "<a onclick='addTo(this, $id)'>
                         <div class='videoSegment'>
                             $thumbnail
