@@ -4,4 +4,4 @@
 ### database lectures.sql has to be imported into phpmyadmin and the file includes/config.php has to be changed according to your host and database connection
 #### A video 'tour through my website' has been enclosed in this repository which highlights all the features of the website
 #### A logo of the website has been embedded into each video and there is also a browser tab icon as seen in the pic below.
-![browser tab icon and overlay embedded in each video](https://github.com/senthil2000-dev/E-Classroom/blob/master/overlay%20and%20icon.png)
+![browser tab icon and overlay embedded in each video](https://github.com/senthil2000-dev/E-Classroom/blob/master/overlay%20and%20icon.png)/
