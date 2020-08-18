@@ -121,13 +121,13 @@ class VideoRendering
         return true;
     }
     public function addOverlay($filePath) {
-        $image = "assets/images/icons/watermark.png";
+        $image = "assets/images/icons/overlay.png";
         
-        $command = "$this->ffmpegPath -i " . $image . " -s 100x50 output.jpeg";
+        $command = "$this->ffmpegPath -i " . $image . " -s 90x30 output.jpeg";
         system($command);
         $command = "$this->ffmpegPath -i " . $filePath . " -i output.jpeg";
         $command .= " -filter_complex \"[0:v][1:v]";
-        $command .= " overlay=5:10\"";
+        $command .= " overlay=5:5\"";
         $command .= " -c:a copy output.mp4";
         system($command);
         unlink("output.jpeg");
