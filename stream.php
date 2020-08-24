@@ -55,13 +55,11 @@ if($query->rowCount()==0) {
     ?>
 </div>
 <?php $text=$_SERVER['PHP_SELF'];
+echo $_SERVER["PHP_SELF"];
 $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : '';
 $url=$protocol.$_SERVER["HTTP_HOST"].$text."?id=".$_GET["id"]; ?>
-<!-- Trigger/Open The Modal -->
-<!-- The Modal -->
-<div id="myModal" class="modal1">
 
-  <!-- Modal content -->
+<div id="myModal" class="modal1">
   <div class="modal-content1">
     <div class="modal-header1">
       <span class="close1">&times;</span>
