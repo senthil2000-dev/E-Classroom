@@ -18,9 +18,7 @@ class PlaylistItem {
         $video=new Video($this->con, $id, $this->userLoggedInObj->getUsername());
         $item=new VideoSegment($video, false);
         $thumbnail= $item->create2($playlist1["timeUploaded"], $playlist1["playlistName"], $playlist1["id"], $i);
-        return "<div class='videoMatrix'>
-                        $thumbnail
-                    </div>";
+        return $thumbnail;
     }
 }
 ?>
